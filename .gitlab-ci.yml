@@ -1,0 +1,24 @@
+image: docker:git
+services:
+- docker:dind
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - git clone https://github.com/openSUSE/docker-containers-build.git brew --depth 1 -b openSUSE-42.1
+
+
+clone_base:
+  script:
+    - docker pull opensuse:latest
+    - docker tag opensuse:latest registry.gitlab.com/gbraad/opensuse:latest
+    - docker push registry.gitlab.com/gbraad/opensuse:latest
+  only:
+    - master
+
+build_base:
+  script:
+    - docker build -t registry.gitlab.com/gbraad/opensuse:brew ./brew/docker/
+    - docker push registry.gitlab.com/gbraad/opensuse:brew
+  only:
+    - master
+
