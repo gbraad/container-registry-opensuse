@@ -7,11 +7,19 @@ before_script:
   - git clone https://github.com/openSUSE/docker-containers-build.git brew --depth 1 -b openSUSE-42.1
 
 
-clone_base:
+clone_leap:
   script:
-    - docker pull opensuse:latest
-    - docker tag opensuse:latest registry.gitlab.com/gbraad/opensuse:latest
-    - docker push registry.gitlab.com/gbraad/opensuse:latest
+    - docker pull opensuse:42.1
+    - docker tag opensuse:42.1 registry.gitlab.com/gbraad/opensuse:42.1
+    - docker push registry.gitlab.com/gbraad/opensuse:42.1
+  only:
+    - master
+
+clone_tumbleweed:
+  script:
+    - docker pull opensuse:tumbleweed
+    - docker tag opensuse:tumbleweed registry.gitlab.com/gbraad/opensuse:tumbleweed
+    - docker push registry.gitlab.com/gbraad/opensuse:tumbleweed
   only:
     - master
 
